@@ -1,6 +1,6 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/db');
-const Equipe = require('./equipeModel');
+// const Equipe = require('./equipeModel');
 
 class Seance extends Model {}
 
@@ -26,6 +26,6 @@ Seance.init(
 );
 
 // Définir les associations
-Seance.belongsTo(Equipe);
+// Seance.belongsTo(Equipe);
 
 module.exports = Seance;
