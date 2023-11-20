@@ -5,9 +5,8 @@ const { coachesControllers: controller } = require('../../controllers/api');
 
 const router = express.Router();
 
-router
-    .route('/')
-    .get(controller.getAll);
-// .post('body', controller.create);
+router.route('/')
+    .get(controller.getAll)
+    .post(controller.postCoach);
 
 module.exports = router;
