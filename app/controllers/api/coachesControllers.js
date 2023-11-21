@@ -1,4 +1,5 @@
 const { Coach } = require('../../models');
+const roles = require('../../roles');
 const { authService } = require('../../services/authService');
 
 const coachesController = {
@@ -18,7 +19,7 @@ const coachesController = {
             const { user } = req;
 
             // Vérifiez si l'utilisateur a le rôle requis
-            if (user.role !== 'entraineur') {
+            if (user.role !== roles.ENTRAINEUR) {
                 return res.status(403).json({ message: 'Accès interdit. Rôle utilisateur incorrect.' });
             }
 
