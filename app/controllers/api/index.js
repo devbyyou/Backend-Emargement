@@ -1,4 +1,5 @@
 const coachesControllers = require('./coachesControllers');
+const logoutControllers = require('./logoutControllers');
 
 const apiController = {
     home(req, res) {
@@ -8,4 +9,4 @@ const apiController = {
     },
 };
 
-module.exports = { apiController, coachesControllers };
+module.exports = { apiController, coachesControllers, logoutControllers };

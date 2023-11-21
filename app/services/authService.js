@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const config = require('../config');
 const { Coach } = require('../models/coachModel');
+const roles = require('../roles');
 
 const generateToken = (user) => {
     const payload = {
@@ -38,7 +39,10 @@ const registerUser = async (userData) => {
     if (existingUser) {
         throw new Error('Cet utilisateur existe déjà.');
     }
-
+    // Assurez-vous que le rôle est valide
+    if (!Object.values(roles).includes(role)) {
+        throw new Error('Rôle d\'utilisateur non valide.');
+    }
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = await Coach.create({

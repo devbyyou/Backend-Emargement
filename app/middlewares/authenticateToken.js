@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const config = require('../config');
-const authService = require('../services/authService');
+// const authService = require('../services/authService');
 
 const { secretKey } = config;
 
@@ -15,16 +15,13 @@ function authenticateToken(req, res, next) {
     }
 
     // Vérification et décodage du token
-    jwt.verify(token, secretKey, async (err, user) => {
+    jwt.verify(token, secretKey, async (err, decodedToken) => {
         if (err) {
             return res.status(403).json({ message: 'Accès interdit. Token invalide.' });
         }
 
         // Ajout des informations utilisateur au req pour un accès ultérieur
-        // Vous pouvez également vérifier l'utilisateur dans la base de données ici si nécessaire
-        // Utilisez la fonction comparePasswords de authService pour vérifier le mot de passe
-
-        req.user = user;
+        req.user = decodedToken;
         next();
     });
 }
