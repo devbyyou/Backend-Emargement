@@ -19,7 +19,7 @@ router.route('/:id')
         validateController.validatePlayer,
         authenticateToken,
         authorize(roles.ENTRAINEUR),
-        authorize(roles.JOUEUR),
+        authorize(roles.ENTRAINEUR),
         controller.update,
     )
     .delete(authenticateToken, authorize(roles.ENTRAINEUR), controller.delete);

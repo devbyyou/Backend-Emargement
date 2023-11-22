@@ -13,7 +13,17 @@ router.route('/')
         validateController.validateCoach,
         authenticateToken,
         authorize(roles.ENTRAINEUR),
-        controller.postCoach,
+        controller.createCoach,
     );
+
+router.route('/:id')
+    .get(controller.getById)
+    .put(
+        validateController.validateCoach,
+        authenticateToken,
+        authorize([roles.ENTRAINEUR]),
+        controller.updateCoach,
+    )
+    .delete(authenticateToken, authorize([roles.ENTRAINEUR]), controller.deleteCoach);
 
 module.exports = router;

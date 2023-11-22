@@ -9,8 +9,12 @@ const router = express.Router();
 
 router.route('/')
     .get(seancesController.getAll)
-    // eslint-disable-next-line max-len
-    .post(validateController.validateSession, authenticateToken, authorize(roles.ENTRAINEUR), seancesController.create);
+    .post(
+        validateController.validateSession,
+        authenticateToken,
+        authorize(roles.ENTRAINEUR),
+        seancesController.create,
+    );
 
 router.route('/:seanceId')
     .get(seancesController.getOne)

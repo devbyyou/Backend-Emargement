@@ -3,21 +3,23 @@
 const express = require('express');
 const { equipeController: controller } = require('../../controllers/api');
 const validateController = require('../../controllers/api/validateController');
+const authorize = require('../../middlewares/authorize');
+const roles = require('../../roles');
 
 const router = express.Router();
 
 router.route('/')
 // Endpoint GET /equipes
-    .get('/equipes', controller.getAllEquipes)
+    .get(controller.getAllEquipes)
 // Endpoint POST /equipes
-    .post('/equipes', validateController.validateTeam, controller.createEquipe);
+    .post(authorize(roles.ENTRAINEUR), validateController.validateTeam, controller.createEquipe);
 
 // Endpoint GET /equipes/:id
 router.route('/:id')
     .get(controller.getEquipeById)
 // Endpoint PUT /equipes/:id
-    .put(validateController.validateTeam, controller.updateEquipe)
+    .put(authorize(roles.ENTRAINEUR), validateController.validateTeam, controller.updateEquipe)
 // Endpoint DELETE /equipes/:id
-    .delete(controller.deleteEquipe);
+    .delete(authorize(roles.ENTRAINEUR), controller.deleteEquipe);
 
 module.exports = router;

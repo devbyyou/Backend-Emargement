@@ -2,16 +2,18 @@
 
 const express = require('express');
 const { categoriesController } = require('../../controllers/api');
+const authorize = require('../../middlewares/authorize');
+const roles = require('../../roles');
 
 const router = express.Router();
 
 router.route('/')
     .get(categoriesController.getAllCategories)
-    .post(categoriesController.createCategory);
+    .post(authorize(roles.ENTRAINEUR), categoriesController.createCategory);
 
 router.route('/:id')
     .get(categoriesController.getCategoryById)
-    .put(categoriesController.updateCategory)
-    .delete(categoriesController.deleteCategory);
+    .put(authorize(roles.ENTRAINEUR), categoriesController.updateCategory)
+    .delete(authorize(roles.ENTRAINEUR), categoriesController.deleteCategory);
 
 module.exports = router;

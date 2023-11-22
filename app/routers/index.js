@@ -12,10 +12,7 @@ const router = express.Router();
 // ! attention à l'ordre des routers. Il faut aller du plus spécifique au plus générique afin que le
 // parcours des middleware ne soit pas interrompu par une middleware 404 dans l'un de ces routeurs
 router.use('/api', authenticateToken, apiRouter);
-// app.use('/api', authenticateToken, router);
 
 // router.use('/', websiteRouter);
-
-// router.use(errorHandler);
 
 module.exports = router;

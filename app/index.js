@@ -9,6 +9,7 @@ const router = require('./routers');
 const app = express();
 const authenticateToken = require('./middlewares/authenticateToken');
 const config = require('./config');
+const errorHandler = require('./errors');
 
 const { secretKey } = config;
 
@@ -25,5 +26,6 @@ app.use(cors(process.env.CORS_DOMAINS ?? '*'));
 
 app.use(authenticateToken(secretKey)); // Passer la clé secrète au middleware
 app.use(router);
-
+// Middleware d'erreur global
+app.use(errorHandler);
 module.exports = app;
