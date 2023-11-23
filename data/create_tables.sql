@@ -4,7 +4,6 @@ BEGIN;
 DROP TABLE IF EXISTS "coaches", "categories", "equipes", "seances","joueurs", "presences", "absences","retards", "coaches_equipes", "historique_presences";
 
 -- Table des coaches
--- Table des coaches
 CREATE TABLE coaches (
     id SERIAL PRIMARY KEY,
     nom VARCHAR(255),
