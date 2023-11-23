@@ -18,6 +18,10 @@ Seance.init(
             type: DataTypes.STRING,
             allowNull: false,
         },
+        statut: {
+            type: DataTypes.ENUM('planifiee', 'terminee'),
+            defaultValue: 'planifiee',
+        },
     },
     {
         sequelize,

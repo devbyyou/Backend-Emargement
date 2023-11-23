@@ -32,6 +32,14 @@ Presence.init(
             },
             allowNull: false,
         },
+        absence: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+        },
+        retard: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+        },
         created_at: {
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,

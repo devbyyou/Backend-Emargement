@@ -16,9 +16,10 @@ router.route('/')
         seancesController.create,
     );
 
-router.route('/:seanceId')
+router.route('/:id')
     .get(seancesController.getOne)
     .put(authenticateToken, authorize(roles.ENTRAINEUR), seancesController.update)
     .delete(authenticateToken, authorize(roles.ENTRAINEUR), seancesController.delete);
-
+router.route('/seance-passes')
+    .get(authenticateToken, seancesController.getSeancesPassees);
 module.exports = router;

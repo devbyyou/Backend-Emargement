@@ -1,7 +1,7 @@
 -- On démarre une transaction afin de s'assurer de la cohérence gloabale de la BDD
 BEGIN;
 -- D'abord on supprime les table 'si elle existe"
-DROP TABLE IF EXISTS "coaches", "categories", "equipes", "seances","joueurs", "presences", "absence","retards", "coaches_equipes";
+DROP TABLE IF EXISTS "coaches", "categories", "equipes", "seances","joueurs", "presences", "absences","retards", "coaches_equipes", "historique_presences";
 
 -- Table des coaches
 -- Table des coaches
@@ -91,6 +91,8 @@ CREATE TABLE presences (
     joueur_id INT REFERENCES joueurs(id),
     seance_id INT REFERENCES seances(id),
     statut VARCHAR(15),
+    absence VARCHAR(255),
+    retard VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -126,8 +128,20 @@ CREATE TABLE coaches_equipes (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS historique_presences (
+    id SERIAL PRIMARY KEY,
+    joueur_id INTEGER NOT NULL,
+    date TIMESTAMP NOT NULL,
+    presence BOOLEAN NOT NULL,
+    absence BOOLEAN NOT NULL,
+    retard BOOLEAN NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 
 -- Création des associations entre les tables
+
 ALTER TABLE Equipes
 ADD CONSTRAINT fk_equipe_categorie
 FOREIGN KEY (categorie_id) REFERENCES Categories(id);
@@ -151,5 +165,8 @@ FOREIGN KEY (joueur_id) REFERENCES Joueurs(id);
 ALTER TABLE Presences
 ADD CONSTRAINT fk_presence_seance
 FOREIGN KEY (seance_id) REFERENCES Seances(id);
+
+ALTER TABLE historique_presences
+    ADD FOREIGN KEY (joueur_id) REFERENCES joueurs(id);
 
 COMMIT;

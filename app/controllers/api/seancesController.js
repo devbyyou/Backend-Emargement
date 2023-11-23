@@ -64,6 +64,22 @@ const seancesController = {
             res.status(500).json(error);
         }
     },
+    // Récupérer la liste des séances d'entraînement passées
+    getSeancesPassees: async (req, res) => {
+        try {
+            // Utilisez Sequelize pour récupérer les séances passées
+            const seancesPassees = await Seance.findAll({
+                where: {
+                    date: { $lt: new Date() }, // Sélections des séances passées
+                },
+                order: [['date', 'DESC']], // Tri par date décroissante
+            });
+
+            res.status(200).json(seancesPassees);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
 };
 
 module.exports = seancesController;

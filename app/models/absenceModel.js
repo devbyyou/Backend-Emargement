@@ -30,7 +30,7 @@ Absence.init(
     {
         sequelize,
         modelName: 'Absence',
-        tableName: 'absences', // Précisez le nom de la table
+        tableName: 'absences',
     },
 );
 
