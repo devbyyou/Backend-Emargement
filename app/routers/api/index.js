@@ -17,7 +17,7 @@ const router = express.Router();
 router.all('/', apiController.home);
 
 // On préfixe les routers de l'API
-router.use('/logout', logoutRouter);
+router.use('/logout', authenticateToken, logoutRouter);
 // Route pour la création d'un coach avec vérification d'autorisation
 router.use('/coaches', authenticateToken, coachRouter);
 router.use('/joueurs', authenticateToken, joueursRouter);

@@ -8,10 +8,10 @@ const router = require('./routers');
 
 const app = express();
 const authenticateToken = require('./middlewares/authenticateToken');
-const config = require('./config');
+// const config = require('./config');
 const errorHandler = require('./errors');
 
-const { secretKey } = config;
+// const { secretKey } = config;
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -24,8 +24,9 @@ app.use(express.urlencoded({ extended: true }));
 // On lève la restriction CORS pour nos amis React
 app.use(cors(process.env.CORS_DOMAINS ?? '*'));
 
-app.use(authenticateToken(secretKey)); // Passer la clé secrète au middleware
 app.use(router);
+app.use(authenticateToken);
+// app.use(authenticateToken(secretKey)); // Passer la clé secrète au middleware
 // Middleware d'erreur global
 app.use(errorHandler);
 module.exports = app;
