@@ -25,13 +25,12 @@ Coach.init(
             type: DataTypes.STRING,
             allowNull: false,
         },
-        mot_de_passe: {
+        password: {
             type: DataTypes.STRING,
             allowNull: false,
         },
         date_creation: {
             type: DataTypes.DATE,
-            allowNull: false,
         },
         last_activity: {
             type: DataTypes.DATE,
@@ -41,7 +40,6 @@ Coach.init(
         },
         statut: {
             type: DataTypes.STRING,
-            allowNull: false,
         },
         session_id: {
             type: DataTypes.STRING,

@@ -3,6 +3,8 @@ const authenticateToken = require('../../middlewares/authenticateToken');
 const { apiController } = require('../../controllers/api');
 const coachRouter = require('./coach');
 const logoutRouter = require('./logout');
+const loginRouter = require('./login');
+const inscriptionRouter = require('./inscription');
 const joueursRouter = require('./joueurs');
 const equipesRouter = require('./equipes');
 const seancesRouter = require('./seances');
@@ -18,6 +20,8 @@ router.all('/', apiController.home);
 
 // On préfixe les routers de l'API
 router.use('/logout', authenticateToken, logoutRouter);
+router.use('/login', loginRouter);
+router.use('/inscription', inscriptionRouter);
 // Route pour la création d'un coach avec vérification d'autorisation
 router.use('/coaches', authenticateToken, coachRouter);
 router.use('/joueurs', authenticateToken, joueursRouter);

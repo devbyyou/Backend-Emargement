@@ -7,8 +7,9 @@ const { secretKey } = config;
 // Middleware d'authentification
 function authenticateToken(req, res, next) {
     // Récupération du token depuis les en-têtes de la requête
+    // console.log(req);
     const token = req.header('Authorization');
-
+    console.log(token);
     // Vérification de la présence du token
     if (!token) {
         return res.status(401).json({ message: 'Accès non autorisé. Token manquant.' });

@@ -6,6 +6,7 @@ const seancesController = require('./seancesController');
 const presenceController = require('./presenceController');
 const categoriesController = require('./categoriesController');
 const qrcodeController = require('./qrcodeController');
+const loginControllers = require('./loginControllers');
 const { validateBody } = require('../../middlewares/validationMiddleware');
 const { coachSchema, playerSchema } = require('../../validation');
 
@@ -32,4 +33,5 @@ module.exports = {
     presenceController,
     categoriesController,
     qrcodeController,
+    loginControllers,
 };

@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const config = require('../config');
-const { Coach } = require('../models/coachModel');
+const { Coach } = require('../models');
 const roles = require('../roles');
 
 const generateToken = (user) => {
@@ -12,7 +12,7 @@ const generateToken = (user) => {
     };
 
     const options = {
-        expiresIn: '1h',
+        expiresIn: '15h',
     };
 
     return jwt.sign(payload, config.secretKey, options);
@@ -25,6 +25,7 @@ const hashPassword = async (password) => {
 
 const comparePasswords = async (inputPassword, hashedPassword) => {
     try {
+        // console.log(inputPassword, hashedPassword);
         return await bcrypt.compare(inputPassword, hashedPassword);
     } catch (error) {
         throw new Error('Erreur lors de la comparaison des mots de passe.');
@@ -32,8 +33,12 @@ const comparePasswords = async (inputPassword, hashedPassword) => {
 };
 
 const registerUser = async (userData) => {
-    const { email, password, role } = userData;
+    const {
+        prenom, nom, tel, email, password, role,
+    } = userData;
+    console.log('le log userdata', userData);
 
+    console.log('log', prenom, nom, tel, email, password, role);
     const existingUser = await Coach.findOne({ where: { email } });
 
     if (existingUser) {
@@ -46,6 +51,9 @@ const registerUser = async (userData) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = await Coach.create({
+        nom,
+        prenom,
+        tel,
         email,
         password: hashedPassword,
         role,
@@ -62,6 +70,11 @@ const authenticateUser = async (email, password) => {
     }
 
     const isValidPassword = await comparePasswords(password, user.password);
+
+    console.log('log', password, user.password);
+    if (isValidPassword) {
+        console.log('connecté');
+    }
 
     if (!isValidPassword) {
         throw new Error('Mot de passe incorrect.');
