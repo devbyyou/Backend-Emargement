@@ -1,8 +1,8 @@
 const express = require('express');
 const { coachesControllers: controller } = require('../../controllers/api');
 const authenticateToken = require('../../middlewares/authenticateToken');
-const authorize = require('../../middlewares/authorize');
-const roles = require('../../roles');
+// const authorize = require('../../middlewares/authorize');
+// const roles = require('../../roles');
 const validateController = require('../../controllers/api/validateController');
 
 const router = express.Router();
@@ -12,7 +12,7 @@ router.route('/')
     .post(
         validateController.validateCoach,
         authenticateToken,
-        authorize(roles.ENTRAINEUR),
+        // authorize(roles.ENTRAINEUR),
         controller.createCoach,
     );
 
@@ -21,9 +21,14 @@ router.route('/:id')
     .put(
         validateController.validateCoach,
         authenticateToken,
-        authorize([roles.ENTRAINEUR]),
+        // authorize([roles.ENTRAINEUR]),
         controller.updateCoach,
     )
-    .delete(authenticateToken, authorize([roles.ENTRAINEUR]), controller.deleteCoach);
+    .delete(
+        authenticateToken,
+        // authorize([roles.ENTRAINEUR]),
+
+        controller.deleteCoach,
+    );
 
 module.exports = router;
