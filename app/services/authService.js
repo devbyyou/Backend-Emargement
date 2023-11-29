@@ -9,6 +9,7 @@ const generateToken = (user) => {
         userId: user.id,
         email: user.email,
         role: user.role,
+        logged: true,
     };
 
     const options = {
@@ -72,10 +73,6 @@ const authenticateUser = async (email, password) => {
     const isValidPassword = await comparePasswords(password, user.password);
 
     console.log('log', password, user.password);
-    if (isValidPassword) {
-        console.log('connecté');
-    }
-
     if (!isValidPassword) {
         throw new Error('Mot de passe incorrect.');
     }

@@ -6,7 +6,10 @@ const loginControllers = {
         try {
             const { email, password } = req.body;
             const token = await authService.authenticateUser(email, password);
-            res.json({ token });
+
+            const logged = true;
+
+            res.json({ token, logged });
         } catch (error) {
             console.error(error);
             res.status(401).json({ error: 'Invalid credentials' });

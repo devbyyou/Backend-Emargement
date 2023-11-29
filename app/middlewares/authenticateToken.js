@@ -5,7 +5,7 @@ const { secretKey } = config;
 
 // Middleware d'authentification
 function authenticateToken(req, res, next) {
-    console.log('En-tête de la requête :', req.headers);
+    // console.log('En-tête de la requête :', req.headers);
 
     // Récupération du token depuis les en-têtes de la requête
     const token = req.header('Authorization')?.split(' ')[1];
