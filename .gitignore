@@ -29,3 +29,5 @@ package-lock.json
 .env.production
 #sql
 table.md
+#script
+data/seedData.js
