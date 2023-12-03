@@ -31,3 +31,4 @@ package-lock.json
 table.md
 #script
 data/seedData.js
+app/config/config.json

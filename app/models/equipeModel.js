@@ -1,6 +1,6 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/db');
-const Categorie = require('./categorieModel');
+const Categorie = require('./categories');
 const Seance = require('./seanceModel');
 const Coach = require('./coachModel');
 const Joueur = require('./joueurModel');

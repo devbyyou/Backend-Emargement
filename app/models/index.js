@@ -1,5 +1,5 @@
 const Coach = require('./coachModel');
-const Categorie = require('./categorieModel');
+const Categories = require('./categories');
 const Equipe = require('./equipeModel');
 const Joueur = require('./joueurModel');
 const Seance = require('./seanceModel');
@@ -11,8 +11,8 @@ const Presence = require('./presenceModel');
 Coach.belongsToMany(Equipe, { through: 'coaches_equipes' });
 Equipe.belongsToMany(Coach, { through: 'coaches_equipes' });
 
-Equipe.belongsTo(Categorie);
-Categorie.hasMany(Equipe);
+Equipe.belongsTo(Categories);
+Categories.hasMany(Equipe);
 
 Equipe.belongsToMany(Joueur, { through: Seance });
 Joueur.belongsToMany(Equipe, { through: Seance });
@@ -36,7 +36,7 @@ Presence.belongsTo(Joueur);
 
 module.exports = {
     Coach,
-    Categorie,
+    Categories,
     Equipe,
     Joueur,
     Seance,

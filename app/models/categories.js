@@ -1,9 +1,9 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/db');
 
-class Categorie extends Model {}
+class Categories extends Model {}
 
-Categorie.init(
+Categories.init(
     {
         nom: {
             type: DataTypes.STRING,
@@ -28,11 +28,12 @@ Categorie.init(
     },
     {
         sequelize,
-        modelName: 'Categorie',
+        // modelName: 'Categories',
+        // eslint-disable-next-line max-len
         tableName: 'categories', // Assurez-vous que le nom de la table correspond à votre base de données
         timestamps: true, // Mettez à true si vous avez created_at et updated_at dans votre table
         underscored: true, // Mettez à true si vous utilisez snake_case au lieu de camelCase
     },
 );
 
-module.exports = Categorie;
+module.exports = Categories;
