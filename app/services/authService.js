@@ -26,8 +26,12 @@ const hashPassword = async (password) => {
 
 const comparePasswords = async (inputPassword, hashedPassword) => {
     try {
-        // console.log(inputPassword, hashedPassword);
-        return await bcrypt.compare(inputPassword, hashedPassword);
+        // Format pour facilité la comparaison des mdp stocké en non hashé
+        // !REMPLACER EN CAS DE PROD REEL PAR :
+        // return await bcrypt.compare(inputPassword, hashedPassword);
+        if (inputPassword === hashedPassword) {
+            return await (inputPassword, hashedPassword);
+        }
     } catch (error) {
         throw new Error('Erreur lors de la comparaison des mots de passe.');
     }
