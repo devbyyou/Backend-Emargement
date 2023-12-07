@@ -1,9 +1,9 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/db');
 
-class Coach extends Model {}
+class Coaches extends Model {}
 
-Coach.init(
+Coaches.init(
     {
         nom: {
             type: DataTypes.STRING,
@@ -44,14 +44,21 @@ Coach.init(
         session_id: {
             type: DataTypes.STRING,
         },
+        equipe_id: {
+            type: DataTypes.INTEGER,
+            // references: {
+            //     model: 'equipes',
+            //     key: 'id',
+            // },
+        },
     },
     {
         sequelize,
-        modelName: 'Coach',
+        modelName: 'coaches',
         tableName: 'coaches', // Nom de la table dans la base de données
         createdAt: 'created_at',
         updatedAt: 'updated_at',
     },
 );
 
-module.exports = Coach;
+module.exports = Coaches;

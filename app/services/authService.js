@@ -1,7 +1,9 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const config = require('../config');
-const { Coach } = require('../models');
+const {
+    Coaches, Equipes, Joueur, Categories,
+} = require('../models');
 const roles = require('../roles');
 
 const generateToken = (user) => {
@@ -9,7 +11,6 @@ const generateToken = (user) => {
         userId: user.id,
         email: user.email,
         role: user.role,
-        logged: true,
     };
 
     const options = {
@@ -44,18 +45,18 @@ const registerUser = async (userData) => {
     console.log('le log userdata', userData);
 
     console.log('log', prenom, nom, tel, email, password, role);
-    const existingUser = await Coach.findOne({ where: { email } });
+    const existingUser = await Coaches.findOne({ where: { email } });
 
     if (existingUser) {
         throw new Error('Cet utilisateur existe déjà.');
     }
-    // Assurez-vous que le rôle est valide
+
     if (!Object.values(roles).includes(role)) {
         throw new Error('Rôle d\'utilisateur non valide.');
     }
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = await Coach.create({
+    const newUser = await Coaches.create({
         nom,
         prenom,
         tel,
@@ -68,8 +69,31 @@ const registerUser = async (userData) => {
 };
 
 const authenticateUser = async (email, password) => {
-    const user = await Coach.findOne({ where: { email } });
-
+    const user = await Coaches.findOne(
+        {
+            where: {
+                email,
+            },
+            include: {
+                model: Equipes,
+                as: 'equipes',
+                attributes: ['id', 'nom', 'logo', 'statut', 'categorie_id'],
+                include: [
+                    {
+                        model: Joueur,
+                        as: 'joueurs',
+                        attributes: ['id', 'nom', 'prenom', 'email'],
+                    },
+                    {
+                        model: Categories,
+                        as: 'Categories',
+                        attributes: ['id', 'nom', 'tranche_age', 'nombre_total'],
+                    },
+                ],
+            },
+        },
+    );
+    // console.log(user);
     if (!user) {
         throw new Error('Utilisateur non trouvé.');
     }
@@ -83,7 +107,7 @@ const authenticateUser = async (email, password) => {
 
     const token = generateToken(user);
 
-    return { user, token };
+    return { token, user };
 };
 
 module.exports = {

@@ -1,24 +1,39 @@
-const Coach = require('./coachModel');
+const Coaches = require('./coaches');
 const Categories = require('./categories');
-const Equipe = require('./equipeModel');
+const Equipes = require('./equipes');
 const Joueur = require('./joueurModel');
 const Seance = require('./seanceModel');
 const Absence = require('./absenceModel');
 const Retard = require('./retardModel');
 const Presence = require('./presenceModel');
 
-// Définissez ici les relations entre les modèles
-Coach.belongsToMany(Equipe, { through: 'coaches_equipes' });
-Equipe.belongsToMany(Coach, { through: 'coaches_equipes' });
+Coaches.belongsToMany(Equipes, {
+    through: 'coaches_equipes',
+    foreignKey: 'coach_id',
+    otherKey: 'equipe_id',
+    as: 'equipes',
+});
 
-Equipe.belongsTo(Categories);
-Categories.hasMany(Equipe);
+Equipes.belongsToMany(Coaches, {
+    through: 'coaches_equipes',
+    foreignKey: 'equipe_id',
+    otherKey: 'coach_id',
+    as: 'coaches',
+});
 
-Equipe.belongsToMany(Joueur, { through: Seance });
-Joueur.belongsToMany(Equipe, { through: Seance });
+Equipes.belongsTo(Categories, {
+    as: 'Categories',
+    foreignKey: 'categorie_id',
+});
+Categories.hasMany(Equipes, {
+    as: 'Categories',
+    foreignKey: 'categorie_id',
+});
 
-Seance.belongsTo(Equipe);
-Equipe.hasMany(Seance);
+Joueur.belongsToMany(Equipes, { through: Seance });
+Equipes.hasMany(Joueur, { as: 'joueurs', foreignKey: 'equipe_id' });
+Seance.belongsTo(Equipes);
+Equipes.hasMany(Seance);
 
 Joueur.belongsToMany(Seance, { through: 'presence' });
 Seance.belongsToMany(Joueur, { through: 'presence' });
@@ -32,16 +47,13 @@ Retard.belongsTo(Joueur);
 Joueur.hasMany(Presence);
 Presence.belongsTo(Joueur);
 
-// ... Ajoutez d'autres relations selon vos besoins
-
 module.exports = {
-    Coach,
+    Coaches,
     Categories,
-    Equipe,
+    Equipes,
     Joueur,
     Seance,
     Retard,
     Absence,
     Presence,
-    // ... Ajoutez d'autres modèles selon vos besoins
 };

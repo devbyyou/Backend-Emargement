@@ -6,7 +6,6 @@ const loginControllers = {
         try {
             const { email, password } = req.body;
             const token = await authService.authenticateUser(email, password);
-
             const logged = true;
 
             res.json({ token, logged });

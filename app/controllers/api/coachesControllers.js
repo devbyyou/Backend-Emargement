@@ -1,11 +1,11 @@
-const { Coach } = require('../../models');
+const { Coaches } = require('../../models');
 const roles = require('../../roles');
 const { authService } = require('../../services/authService');
 
 const coachesController = {
     getAll: async (req, res) => {
         try {
-            const coaches = await Coach.findAll();
+            const coaches = await Coaches.findAll();
             res.json(coaches);
         } catch (error) {
             console.error(error);
@@ -15,7 +15,7 @@ const coachesController = {
 
     getById: async (req, res) => {
         try {
-            const coach = await Coach.findByPk(req.params.id);
+            const coach = await Coaches.findByPk(req.params.id);
             if (!coach) {
                 return res.status(404).json({ message: 'Coach not found' });
             }
@@ -46,7 +46,7 @@ const coachesController = {
 
     updateCoach: async (req, res) => {
         try {
-            const coach = await Coach.findByPk(req.params.id);
+            const coach = await Coaches.findByPk(req.params.id);
             if (!coach) {
                 return res.status(404).json({ message: 'Coach not found' });
             }
@@ -63,7 +63,7 @@ const coachesController = {
 
     deleteCoach: async (req, res) => {
         try {
-            const coach = await Coach.findByPk(req.params.id);
+            const coach = await Coaches.findByPk(req.params.id);
             if (!coach) {
                 return res.status(404).json({ message: 'Coach not found' });
             }
