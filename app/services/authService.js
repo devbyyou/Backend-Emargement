@@ -11,10 +11,11 @@ const generateToken = (user) => {
         userId: user.id,
         email: user.email,
         role: user.role,
+        // timestamp: Date.now(),
     };
 
     const options = {
-        expiresIn: '1h',
+        expiresIn: '1s',
     };
 
     return jwt.sign(payload, config.secretKey, options);

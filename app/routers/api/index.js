@@ -16,7 +16,7 @@ const router = express.Router();
 
 // Route par défaut de l'API, ici on la confxigure pour toutes les méthodes
 // afin de donner l'information en cas d'oubli de spéfication de la route par l'utilisateur
-router.all('/', apiController.home);
+router.all('/', authenticateToken, apiController.home);
 
 // On préfixe les routers de l'API
 router.use('/logout', authenticateToken, logoutRouter);
