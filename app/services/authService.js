@@ -83,11 +83,11 @@ const authenticateUser = async (email, password) => {
                     {
                         model: Joueur,
                         as: 'joueurs',
-                        attributes: ['id', 'nom', 'prenom', 'email'],
+                        attributes: ['id', 'nom', 'prenom', 'email', 'derniere_activite'],
                     },
                     {
                         model: Categories,
-                        as: 'Categories',
+                        as: 'categories',
                         attributes: ['id', 'nom', 'tranche_age', 'nombre_total'],
                     },
                 ],

@@ -22,11 +22,11 @@ Equipes.belongsToMany(Coaches, {
 });
 
 Equipes.belongsTo(Categories, {
-    as: 'Categories',
+    as: 'categories',
     foreignKey: 'categorie_id',
 });
 Categories.hasMany(Equipes, {
-    as: 'Categories',
+    as: 'categories',
     foreignKey: 'categorie_id',
 });
 
