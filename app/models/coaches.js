@@ -46,10 +46,9 @@ Coaches.init(
         },
         equipe_id: {
             type: DataTypes.INTEGER,
-            // references: {
-            //     model: 'equipes',
-            //     key: 'id',
-            // },
+        },
+        banniere: {
+            type: DataTypes.INTEGER,
         },
     },
     {
