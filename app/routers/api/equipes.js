@@ -13,7 +13,11 @@ router.route('/')
 // Endpoint GET /equipes
     .get(controller.getAllEquipes)
 // Endpoint POST /equipes
-    .post(authorize(roles.ENTRAINEUR), validateController.validateTeam, controller.createEquipe);
+    .post(
+        // authorize(roles.ENTRAINEUR.toLowerCase()),
+        // validateController.validateTeam,
+        controller.createEquipe,
+    );
 
 // Endpoint GET /equipes/:id
 router.route('/:id')

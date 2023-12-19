@@ -1,12 +1,12 @@
 const roles = require('../../roles');
 const { authService } = require('../../services/authService');
 
-const { Equipe } = require('../../models');
+const { Equipes, Coaches } = require('../../models');
 
 const equipeController = {
     getAllEquipes: async (req, res) => {
         try {
-            const equipes = await Equipe.findAll();
+            const equipes = await Equipes.findAll();
             res.json(equipes);
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -16,7 +16,7 @@ const equipeController = {
     getEquipeById: async (req, res) => {
         const { id } = req.params;
         try {
-            const equipe = await Equipe.findByPk(id);
+            const equipe = await Equipes.findByPk(id);
             if (!equipe) {
                 res.status(404).json({ message: 'Équipe non trouvée.' });
             } else {
@@ -28,9 +28,25 @@ const equipeController = {
     },
 
     createEquipe: async (req, res) => {
-        const { nom, logo } = req.body;
+        console.log('LE REQ.BODY EST :', req.body);
+        console.log('LE REQ EST :', req.user.userId);
+        const {
+            nom, logo, categorieId, statut,
+        } = req.body;
+        const coachId = req.user.userId;
         try {
-            const newEquipe = await Equipe.create({ nom, logo });
+            const newEquipe = await Equipes.create({
+                nom,
+                logo,
+                categorieId,
+                statut,
+                coachId,
+            });
+            // Ajouter l'équipe à l'ensemble des équipes associées à l'entraîneur
+            const coach = await Coaches.findByPk(coachId);
+            if (coach) {
+                await coach.addEquipes(newEquipe);
+            }
             res.status(201).json(newEquipe);
         } catch (error) {
             res.status(400).json({ error: error.message });
@@ -41,7 +57,7 @@ const equipeController = {
         const { id } = req.params;
         const { nom, logo } = req.body;
         try {
-            const equipe = await Equipe.findByPk(id);
+            const equipe = await Equipes.findByPk(id);
             if (!equipe) {
                 res.status(404).json({ message: 'Équipe non trouvée.' });
             } else {
@@ -56,7 +72,7 @@ const equipeController = {
     deleteEquipe: async (req, res) => {
         const { id } = req.params;
         try {
-            const equipe = await Equipe.findByPk(id);
+            const equipe = await Equipes.findByPk(id);
             if (!equipe) {
                 res.status(404).json({ message: 'Équipe non trouvée.' });
             } else {

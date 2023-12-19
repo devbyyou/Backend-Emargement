@@ -6,6 +6,7 @@ const Seance = require('./seanceModel');
 const Absence = require('./absenceModel');
 const Retard = require('./retardModel');
 const Presence = require('./presenceModel');
+const CoachesEquipes = require('./coachesEquipes');
 
 Coaches.belongsToMany(Equipes, {
     through: 'coaches_equipes',
@@ -56,4 +57,5 @@ module.exports = {
     Retard,
     Absence,
     Presence,
+    CoachesEquipes,
 };
