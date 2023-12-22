@@ -11,7 +11,8 @@ const router = express.Router();
 
 router.route('/')
 // Endpoint GET /equipes
-    .get(controller.getAllEquipes)
+    // .get(controller.getAllEquipes)
+    .get(controller.getAllEquipesByUser)
 // Endpoint POST /equipes
     .post(
         // authorize(roles.ENTRAINEUR.toLowerCase()),
