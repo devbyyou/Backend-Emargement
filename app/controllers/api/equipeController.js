@@ -66,8 +66,8 @@ const equipeController = {
    },
 
    createEquipe: async (req, res) => {
-      console.log('LE REQ.BODY EST :', req.body);
-      console.log('LE REQ EST :', req.user.userId);
+      // console.log('LE REQ.BODY EST :', req.body);
+      // console.log('LE REQ EST :', req.user.userId);
       const {
          nom, logo, categorieId, statut,
       } = req.body;
@@ -92,14 +92,19 @@ const equipeController = {
    },
 
    updateEquipe: async (req, res) => {
-      const { id } = req.params;
-      const { nom, logo } = req.body;
+      const { userId } = req.user;
+      const {
+         nom, logo, categorieId, statut,
+      } = req.body;
+      console.log(nom);
       try {
-         const equipe = await Equipes.findByPk(id);
+         const equipe = await Equipes.findByPk(userId);
          if (!equipe) {
             res.status(404).json({ message: 'Équipe non trouvée.' });
          } else {
-            await equipe.update({ nom, logo });
+            await equipe.update({
+               nom, logo, categorieId, statut,
+            });
             res.json(equipe);
          }
       } catch (error) {

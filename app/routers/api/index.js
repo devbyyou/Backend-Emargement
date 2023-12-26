@@ -32,7 +32,7 @@ router.use('/categories', categoriesRouter);
 router.use('/qrcode', qrcodeRouter);
 
 router.use((req, res) => {
-  res.status(404).send('Service does not exists\nSee : https://doc.localhost.api');
+   res.status(404).send('Service does not exists\nSee : https://doc.localhost.api');
 });
 
 module.exports = router;
