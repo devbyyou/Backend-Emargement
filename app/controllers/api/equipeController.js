@@ -2,7 +2,7 @@
 // const { authService } = require('../../services/authService');
 
 const {
-   Equipes, Coaches, Joueur, Categories,
+   Equipes, Coaches, Joueur, Categories, CoachesEquipes,
 } = require('../../models');
 
 const equipeController = {
@@ -96,7 +96,7 @@ const equipeController = {
       const {
          nom, logo, categorieId, statut,
       } = req.body;
-      console.log(nom);
+      // console.log(nom);
       try {
          const equipe = await Equipes.findByPk(userId);
          if (!equipe) {
@@ -115,7 +115,12 @@ const equipeController = {
    deleteEquipe: async (req, res) => {
       const { id } = req.params;
       try {
+         // Supprimez d'abord les références dans la table coaches_equipes
+         await CoachesEquipes.destroy({ where: { equipe_id: id } });
+
+         // Ensuite, supprimez l'équipe
          const equipe = await Equipes.findByPk(id);
+
          if (!equipe) {
             res.status(404).json({ message: 'Équipe non trouvée.' });
          } else {

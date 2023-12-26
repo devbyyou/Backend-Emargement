@@ -3,8 +3,8 @@
 const express = require('express');
 const { equipeController: controller } = require('../../controllers/api');
 // const validateController = require('../../controllers/api/validateController');
-const authorize = require('../../middlewares/authorize');
-const roles = require('../../roles');
+// const authorize = require('../../middlewares/authorize');
+// const roles = require('../../roles');
 // const authenticateToken = require('../../middlewares/authenticateToken');
 
 const router = express.Router();
@@ -30,6 +30,9 @@ router.route('/:id')
       controller.updateEquipe,
    )
 // Endpoint DELETE /equipes/:id
-   .delete(authorize(roles.ENTRAINEUR), controller.deleteEquipe);
+   .delete(
+      // authorize(roles.ENTRAINEUR),
+      controller.deleteEquipe,
+   );
 
 module.exports = router;
