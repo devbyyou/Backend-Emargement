@@ -29,7 +29,7 @@ const equipeController = {
                   {
                      model: Joueur,
                      as: 'joueurs',
-                     attributes: ['id', 'nom', 'prenom', 'email', 'derniere_activite'],
+                     attributes: ['id', 'nom', 'prenom', 'email', 'derniere_activite', 'categorie_id'],
                   },
                   {
                      model: Categories,
@@ -92,13 +92,14 @@ const equipeController = {
    },
 
    updateEquipe: async (req, res) => {
-      const { userId } = req.user;
+      console.log('MAKMEUPY FO YOU GO NED O MORE REQPARMAD', req.params);
+      const { id } = req.params;
       const {
          nom, logo, categorieId, statut,
       } = req.body;
       // console.log(nom);
       try {
-         const equipe = await Equipes.findByPk(userId);
+         const equipe = await Equipes.findByPk(id);
          if (!equipe) {
             res.status(404).json({ message: 'Équipe non trouvée.' });
          } else {
