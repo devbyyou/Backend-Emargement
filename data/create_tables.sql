@@ -35,7 +35,7 @@ CREATE TABLE coaches (
     email VARCHAR(255) NOT NULL,
     tel VARCHAR(15) NOT NULL,
     role VARCHAR(15) NOT NULL,
-    password VARCHAR(255) NOT NULL,
+    password VARCHAR(255),
     date_creation DATE DEFAULT CURRENT_DATE,
     last_activity TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     logo VARCHAR(255),

@@ -1,4 +1,4 @@
-const { Joueur } = require('../../models');
+const { Joueur, Equipes, Categories } = require('../../models');
 // const { authService } = require('../../services/authService');
 
 const JoueuresController = {
@@ -23,11 +23,58 @@ const JoueuresController = {
       }
    },
    postJoueur: async (req, res) => {
-      const { nom, prenom, email } = req.body;
+      const {
+         nom, prenom, email,
+         logo, categorie_id,
+         statut, tel, age,
+         equipe_id,
+      } = req.body;
+      const { id } = req.params;
+      const joueurId = `${equipe_id}_${id}`;
+
       try {
-         const nouveauJoueur = await Joueur.create({ nom, prenom, email });
+         console.log('LE REQ.BODY------------------>', req.body);
+         console.log('LE REQ.params------------------>', req.params);
+         const searchJoueur = await Joueur.findOne({
+            where: { email },
+         });
+         console.log('LE JOUEUR ----------->', searchJoueur);
+         if (searchJoueur) {
+            return res.status(404).json({ message: 'Joueur existe déjà' });
+         }
+
+         // Vérifier si la catégorie existe
+         const categorieExists = await Categories.findByPk(categorie_id);
+         if (!categorieExists) {
+            return res.status(404).json({ message: 'La catégorie spécifiée n\'existe pas' });
+         }
+
+         // Vérifier si l'équipe existe
+         const equipeExists = await Equipes.findByPk(equipe_id);
+         if (!equipeExists) {
+            return res.status(404).json({ message: 'L\'équipe spécifiée n\'existe pas' });
+         }
+         const nouveauJoueur = await Joueur.create({
+            nom,
+            prenom,
+            email,
+            logo,
+            categorie_id,
+            equipe_id,
+            statut,
+            tel,
+            age,
+            joueurId: `${equipe_id}_${id}`,
+            derniere_activite: new Date(),
+         });
+            // Ajouter le joueur à l'ensemble des équipes associées à l'equipe
+         const joueur = await Equipes.findByPk(equipe_id);
+         if (joueur) {
+            await joueur.addJoueur(nouveauJoueur);
+         }
          res.status(201).json(nouveauJoueur);
       } catch (error) {
+         console.error(error.errors);
          res.status(400).json({ error: error.message });
       }
    },

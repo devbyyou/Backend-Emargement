@@ -24,7 +24,7 @@ router.use('/login', loginRouter);
 router.use('/inscription', inscriptionRouter);
 // Route pour la création d'un coach avec vérification d'autorisation
 router.use('/coaches', authenticateToken, coachRouter);
-router.use('/joueurs', authenticateToken, joueursRouter);
+router.use('/joueurs', joueursRouter);
 router.use('/equipes', authenticateToken, equipesRouter);
 router.use('/seances', authenticateToken, seancesRouter);
 router.use('/presences', presenceRouter);

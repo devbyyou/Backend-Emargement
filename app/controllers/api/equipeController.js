@@ -29,7 +29,10 @@ const equipeController = {
                   {
                      model: Joueur,
                      as: 'joueurs',
-                     attributes: ['id', 'nom', 'prenom', 'email', 'derniere_activite', 'categorie_id'],
+                     attributes: [
+                        'id', 'nom', 'prenom', 'email',
+                        'derniere_activite', 'categorie_id', 'age',
+                        'logo', 'statut', 'tel'],
                   },
                   {
                      model: Categories,
@@ -66,17 +69,15 @@ const equipeController = {
    },
 
    createEquipe: async (req, res) => {
-      // console.log('LE REQ.BODY EST :', req.body);
-      // console.log('LE REQ EST :', req.user.userId);
       const {
-         nom, logo, categorieId, statut,
+         nom, logo, categorie_id, statut,
       } = req.body;
       const coachId = req.user.userId;
       try {
          const newEquipe = await Equipes.create({
             nom,
             logo,
-            categorieId,
+            categorie_id,
             statut,
             coachId,
          });
@@ -92,7 +93,6 @@ const equipeController = {
    },
 
    updateEquipe: async (req, res) => {
-      console.log('MAKMEUPY FO YOU GO NED O MORE REQPARMAD', req.params);
       const { id } = req.params;
       const {
          nom, logo, categorieId, statut,
