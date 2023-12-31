@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const { Joueur, Equipes, Categories } = require('../../models');
 // const { authService } = require('../../services/authService');
 
@@ -30,15 +31,15 @@ const JoueuresController = {
          equipe_id,
       } = req.body;
       const { id } = req.params;
-      const joueurId = `${equipe_id}_${id}`;
+      // const joueurId = `${equipe_id}_${id}`;
 
       try {
-         console.log('LE REQ.BODY------------------>', req.body);
-         console.log('LE REQ.params------------------>', req.params);
+         // console.log('LE REQ.BODY------------------>', req.body);
+         // console.log('LE REQ.params------------------>', req.params);
          const searchJoueur = await Joueur.findOne({
             where: { email },
          });
-         console.log('LE JOUEUR ----------->', searchJoueur);
+         // console.log('LE JOUEUR ----------->', searchJoueur);
          if (searchJoueur) {
             return res.status(404).json({ message: 'Joueur existe déjà' });
          }
@@ -74,7 +75,7 @@ const JoueuresController = {
          }
          res.status(201).json(nouveauJoueur);
       } catch (error) {
-         console.error(error.errors);
+         // console.error(error.errors);
          res.status(400).json({ error: error.message });
       }
    },

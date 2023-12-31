@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 // const roles = require('../../roles');
 // const { authService } = require('../../services/authService');
 
@@ -49,7 +50,7 @@ const equipeController = {
 
          res.json(userWithEquipes.equipes);
       } catch (error) {
-         console.error(error);
+         // console.error(error);
          res.status(500).json({ error: 'Erreur serveur lors de la récupération des équipes.' });
       }
    },
@@ -94,10 +95,10 @@ const equipeController = {
 
    updateEquipe: async (req, res) => {
       const { id } = req.params;
+      const { userId } = req.user;
       const {
          nom, logo, categorieId, statut,
       } = req.body;
-      // console.log(nom);
       try {
          const equipe = await Equipes.findByPk(id);
          if (!equipe) {
@@ -106,7 +107,28 @@ const equipeController = {
             await equipe.update({
                nom, logo, categorieId, statut,
             });
-            res.json(equipe);
+            const userWithEquipes = await Coaches.findByPk(userId, {
+               include: {
+                  model: Equipes,
+                  as: 'equipes',
+                  include: [
+                     {
+                        model: Joueur,
+                        as: 'joueurs',
+                        attributes: [
+                           'id', 'nom', 'prenom', 'email',
+                           'derniere_activite', 'categorie_id', 'age',
+                           'logo', 'statut', 'tel'],
+                     },
+                     {
+                        model: Categories,
+                        as: 'categories',
+                        attributes: ['id', 'nom', 'tranche_age', 'nombre_total'],
+                     },
+                  ],
+               },
+            });
+            res.json(userWithEquipes.equipes);
          }
       } catch (error) {
          res.status(400).json({ error: error.message });
@@ -115,6 +137,10 @@ const equipeController = {
 
    deleteEquipe: async (req, res) => {
       const { id } = req.params;
+      const { userId } = req.user;
+      if (!userId) {
+         return res.status(400).json({ error: 'Le paramètre userID est manquant.' });
+      }
       try {
          // Supprimez d'abord les références dans la table coaches_equipes
          await CoachesEquipes.destroy({ where: { equipe_id: id } });
@@ -126,7 +152,28 @@ const equipeController = {
             res.status(404).json({ message: 'Équipe non trouvée.' });
          } else {
             await equipe.destroy();
-            res.json({ message: 'Équipe supprimée avec succès.' });
+            const userWithEquipes = await Coaches.findByPk(userId, {
+               include: {
+                  model: Equipes,
+                  as: 'equipes',
+                  include: [
+                     {
+                        model: Joueur,
+                        as: 'joueurs',
+                        attributes: [
+                           'id', 'nom', 'prenom', 'email',
+                           'derniere_activite', 'categorie_id', 'age',
+                           'logo', 'statut', 'tel'],
+                     },
+                     {
+                        model: Categories,
+                        as: 'categories',
+                        attributes: ['id', 'nom', 'tranche_age', 'nombre_total'],
+                     },
+                  ],
+               },
+            });
+            res.status(200).json(userWithEquipes.equipes);
          }
       } catch (error) {
          res.status(500).json({ error: error.message });
