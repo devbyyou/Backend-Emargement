@@ -30,7 +30,7 @@ const equipeController = {
                   {
                      model: Joueur,
                      as: 'joueurs',
-                     attributes: [
+                     attributes: ['created_at',
                         'id', 'nom', 'prenom', 'email',
                         'derniere_activite', 'categorie_id', 'age',
                         'logo', 'statut', 'tel'],
