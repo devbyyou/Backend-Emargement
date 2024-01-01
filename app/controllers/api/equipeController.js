@@ -97,7 +97,7 @@ const equipeController = {
       const { id } = req.params;
       const { userId } = req.user;
       const {
-         nom, logo, categorieId, statut,
+         nom, logo, categorie_id, statut,
       } = req.body;
       try {
          const equipe = await Equipes.findByPk(id);
@@ -105,7 +105,7 @@ const equipeController = {
             res.status(404).json({ message: 'Équipe non trouvée.' });
          } else {
             await equipe.update({
-               nom, logo, categorieId, statut,
+               nom, logo, categorie_id, statut,
             });
             const userWithEquipes = await Coaches.findByPk(userId, {
                include: {

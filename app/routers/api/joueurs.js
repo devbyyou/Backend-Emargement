@@ -3,7 +3,7 @@ const { joueursControllers: controller } = require('../../controllers/api');
 const authenticateToken = require('../../middlewares/authenticateToken');
 const authorize = require('../../middlewares/authorize');
 const roles = require('../../roles');
-const validateController = require('../../controllers/api/validateController');
+// const validateController = require('../../controllers/api/validateController');
 
 const router = express.Router();
 
@@ -21,11 +21,15 @@ router.route('/:id')
    )
 // eslint-disable-next-line max-len
    .put(
-      validateController.validatePlayer,
-      authenticateToken,
-      authorize(roles.ENTRAINEUR),
-      authorize(roles.ENTRAINEUR),
+      // validateController.validatePlayer,
+      // authenticateToken,
+      // authorize(roles.ENTRAINEUR),
+      // authorize(roles.ENTRAINEUR),
       controller.update,
    )
-   .delete(authenticateToken, authorize(roles.ENTRAINEUR), controller.delete);
+   .delete(
+      // authenticateToken,
+      // authorize(roles.ENTRAINEUR),
+      controller.delete,
+   );
 module.exports = router;

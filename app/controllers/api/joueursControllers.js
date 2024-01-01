@@ -1,5 +1,7 @@
 /* eslint-disable camelcase */
-const { Joueur, Equipes, Categories } = require('../../models');
+const {
+   Joueur, Equipes, Categories,
+} = require('../../models');
 // const { authService } = require('../../services/authService');
 
 const JoueuresController = {
@@ -30,7 +32,7 @@ const JoueuresController = {
          statut, tel, age,
          equipe_id,
       } = req.body;
-      const { id } = req.params;
+      // const { id } = req.params;
       // const joueurId = `${equipe_id}_${id}`;
 
       try {
@@ -65,7 +67,8 @@ const JoueuresController = {
             statut,
             tel,
             age,
-            joueurId: `${equipe_id}_${id}`,
+            // joueurId: `${equipe_id}_${id}`,
+            // id,
             derniere_activite: new Date(),
          });
             // Ajouter le joueur à l'ensemble des équipes associées à l'equipe
@@ -80,15 +83,32 @@ const JoueuresController = {
       }
    },
    update: async (req, res) => {
+      const {
+         nom, prenom, email,
+         logo, categorie_id,
+         statut, tel, age,
+         equipe_id,
+      } = req.body;
       const { id } = req.params;
-      const { nom, prenom, email } = req.body;
       try {
          const joueur = await Joueur.findByPk(id);
          if (!joueur) {
-            return res.status(404).json({ message: 'Joueur introuvable.' });
+            res.status(404).json({ message: 'Joueur non trouvée.' });
+         } else {
+            await joueur.update({
+               nom,
+               prenom,
+               email,
+               logo,
+               categorie_id,
+               statut,
+               tel,
+               age,
+               equipe_id,
+               id,
+            });
+            res.status(201).json(joueur);
          }
-         await joueur.update({ nom, prenom, email });
-         res.json(joueur);
       } catch (error) {
          res.status(400).json({ error: error.message });
       }
@@ -101,7 +121,7 @@ const JoueuresController = {
             return res.status(404).json({ message: 'Joueur introuvable.' });
          }
          await joueur.destroy();
-         res.status(204).end();
+         res.status(204).json({ message: `le joueurs ${joueur} avec l'id ${id} à été supprimé avec succès` });
       } catch (error) {
          res.status(500).json({ error: error.message });
       }
