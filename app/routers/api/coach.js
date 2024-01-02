@@ -8,27 +8,27 @@ const validateController = require('../../controllers/api/validateController');
 const router = express.Router();
 
 router.route('/')
-    .get(controller.getAll)
-    .post(
-        validateController.validateCoach,
-        authenticateToken,
-        // authorize(roles.ENTRAINEUR),
-        controller.createCoach,
-    );
+   .get(controller.getAll)
+   .post(
+      validateController.validateCoach,
+      authenticateToken,
+      // authorize(roles.ENTRAINEUR),
+      controller.createCoach,
+   );
 
 router.route('/:id')
-    .get(controller.getById)
-    .put(
-        validateController.validateCoach,
-        authenticateToken,
-        // authorize([roles.ENTRAINEUR]),
-        controller.updateCoach,
-    )
-    .delete(
-        authenticateToken,
-        // authorize([roles.ENTRAINEUR]),
+   .get(controller.getById)
+   .put(
+      //   validateController.validateCoach,
+      //   authenticateToken,
+      // authorize([roles.ENTRAINEUR]),
+      controller.updateCoach,
+   )
+   .delete(
+      authenticateToken,
+      // authorize([roles.ENTRAINEUR]),
 
-        controller.deleteCoach,
-    );
+      controller.deleteCoach,
+   );
 
 module.exports = router;

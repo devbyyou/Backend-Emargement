@@ -14,8 +14,9 @@ const coachesController = {
    },
 
    getById: async (req, res) => {
+      const { id } = req.params;
       try {
-         const coach = await Coaches.findByPk(req.params.id);
+         const coach = await Coaches.findByPk(id);
          if (!coach) {
             return res.status(404).json({ message: 'Coach not found' });
          }
@@ -45,19 +46,33 @@ const coachesController = {
    },
 
    updateCoach: async (req, res) => {
+      const {
+         nom, prenom, email,
+         logo, tel, age,
+         banniere, password, role,
+      } = req.body;
+      const { id } = req.params;
       try {
-         const coach = await Coaches.findByPk(req.params.id);
+         const coach = await Coaches.findByPk(id);
          if (!coach) {
-            return res.status(404).json({ message: 'Coach not found' });
+            res.status(404).json({ message: 'coach non trouvée.' });
+         } else {
+            await coach.update({
+               nom,
+               prenom,
+               email,
+               logo,
+               tel,
+               age,
+               banniere,
+               password,
+               role,
+               id,
+            });
+            res.status(201).json(coach);
          }
-
-         // Mettez à jour les détails du coach avec les données du corps de la requête
-         await coach.update(req.body);
-
-         res.json({ message: 'Coach updated successfully' });
       } catch (error) {
-         console.error(error);
-         res.status(500).json({ error: 'Internal Server Error' });
+         res.status(400).json({ error: error.message });
       }
    },
 
