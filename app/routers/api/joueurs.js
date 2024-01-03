@@ -32,4 +32,8 @@ router.route('/:id')
       // authorize(roles.ENTRAINEUR),
       controller.delete,
    );
+router.route('/:id')
+   .put(
+      controller.updating,
+   );
 module.exports = router;

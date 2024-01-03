@@ -1,8 +1,9 @@
 /* eslint-disable camelcase */
+const bcrypt = require('bcryptjs');
+// const { authService } = require('../../services/authService');
 const {
    Joueur, Equipes, Categories,
 } = require('../../models');
-// const { authService } = require('../../services/authService');
 
 const JoueuresController = {
    getAll: async (req, res) => {
@@ -25,6 +26,11 @@ const JoueuresController = {
          res.status(500).json({ error: error.message });
       }
    },
+   generateDefaultPassword: () => {
+      const defaultPassword = 'MotDePasseParDefaut123';
+      const saltRounds = 10;
+      return bcrypt.hashSync(defaultPassword, saltRounds);
+   },
    postJoueur: async (req, res) => {
       const {
          nom, prenom, email,
@@ -34,7 +40,6 @@ const JoueuresController = {
       } = req.body;
       // const { id } = req.params;
       // const joueurId = `${equipe_id}_${id}`;
-
       try {
          // console.log('LE REQ.BODY------------------>', req.body);
          // console.log('LE REQ.params------------------>', req.params);
@@ -57,6 +62,10 @@ const JoueuresController = {
          if (!equipeExists) {
             return res.status(404).json({ message: 'L\'équipe spécifiée n\'existe pas' });
          }
+
+         // const defaultPassword = JoueuresController.generateDefaultPassword();
+         const defaultPassword = 'MotDePasseParDefaut123';
+
          const nouveauJoueur = await Joueur.create({
             nom,
             prenom,
@@ -67,16 +76,30 @@ const JoueuresController = {
             statut,
             tel,
             age,
+            password: defaultPassword,
+            derniere_activite: new Date(),
             // joueurId: `${equipe_id}_${id}`,
             // id,
-            derniere_activite: new Date(),
          });
-            // Ajouter le joueur à l'ensemble des équipes associées à l'equipe
-         const joueur = await Equipes.findByPk(equipe_id);
-         if (joueur) {
-            await joueur.addJoueur(nouveauJoueur);
+
+         // Ajouter le joueur à l'ensemble des équipes associées à l'equipe
+         const equipe = await Equipes.findByPk(equipe_id);
+         if (equipe) {
+            await equipe.addJoueur(nouveauJoueur);
          }
-         res.status(201).json(nouveauJoueur);
+         const nouveauJoueurSansmdp = {
+            nom: nouveauJoueur.nom,
+            prenom: nouveauJoueur.prenom,
+            email: nouveauJoueur.email,
+            logo: nouveauJoueur.logo,
+            categorie_id: nouveauJoueur.categorie_id,
+            equipe_id: nouveauJoueur.equipe_id,
+            statut: nouveauJoueur.statut,
+            tel: nouveauJoueur.tel,
+            age: nouveauJoueur.age,
+            derniere_activite: nouveauJoueur.derniere_activite,
+         };
+         res.status(201).json(nouveauJoueurSansmdp);
       } catch (error) {
          // console.error(error.errors);
          res.status(400).json({ error: error.message });
@@ -106,6 +129,35 @@ const JoueuresController = {
                age,
                equipe_id,
                id,
+            });
+            res.status(201).json(joueur);
+         }
+      } catch (error) {
+         res.status(400).json({ error: error.message });
+      }
+   },
+   updating: async (req, res) => {
+      const {
+         nom, prenom, email,
+         logo, tel, age,
+         banniere, password, role,
+      } = req.body;
+      const { id } = req.params;
+      try {
+         const joueur = await Joueur.findByPk(id);
+         if (!joueur) {
+            res.status(404).json({ message: 'Joueur non trouvée.' });
+         } else {
+            await joueur.update({
+               nom,
+               prenom,
+               email,
+               logo,
+               tel,
+               age,
+               banniere,
+               password,
+               role,
             });
             res.status(201).json(joueur);
          }

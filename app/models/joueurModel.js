@@ -48,10 +48,10 @@ Joueur.init(
       // total_presence: {
       //    type: DataTypes.INTEGER,
       // },
-      // mot_de_passe: {
-      //    type: DataTypes.STRING,
-      //    allowNull: false,
-      // },
+      password: {
+         type: DataTypes.STRING,
+         allowNull: false,
+      },
       // role: {
       //    type: DataTypes.STRING(15),
       // },
