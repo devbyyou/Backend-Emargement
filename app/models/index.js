@@ -2,7 +2,7 @@ const Coaches = require('./coaches');
 const Categories = require('./categories');
 const Equipes = require('./equipes');
 const Joueur = require('./joueurModel');
-const Seance = require('./seanceModel');
+const Seances = require('./seances');
 const Absence = require('./absenceModel');
 const Retard = require('./retardModel');
 const Presence = require('./presenceModel');
@@ -34,13 +34,16 @@ Categories.hasMany(Equipes, {
    foreignKey: 'categorie_id',
 });
 
-Joueur.belongsToMany(Equipes, { through: Seance });
-Equipes.hasMany(Joueur, { as: 'joueurs', foreignKey: 'equipe_id' });
-Seance.belongsTo(Equipes);
-Equipes.hasMany(Seance);
+// Modèle Joueur
+Joueur.belongsToMany(Seances, { through: 'presences', foreignKey: 'joueur_id' });
 
-Joueur.belongsToMany(Seance, { through: 'presence' });
-Seance.belongsToMany(Joueur, { through: 'presence' });
+// Modèle Equipes
+Equipes.hasMany(Joueur, { as: 'joueurs', foreignKey: 'equipe_id' });
+Equipes.hasMany(Seances, { foreignKey: 'equipe_id' });
+
+// Modèle Seances
+Seances.belongsTo(Equipes, { foreignKey: 'equipe_id' });
+Seances.belongsToMany(Joueur, { through: 'presences', foreignKey: 'seance_id' });
 
 Joueur.hasMany(Absence);
 Absence.belongsTo(Joueur);
@@ -56,7 +59,7 @@ module.exports = {
    Categories,
    Equipes,
    Joueur,
-   Seance,
+   Seances,
    Retard,
    Absence,
    Presence,

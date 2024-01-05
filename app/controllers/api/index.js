@@ -11,11 +11,11 @@ const { validateBody } = require('../../middlewares/validationMiddleware');
 const { coachSchema, playerSchema } = require('../../validation');
 
 const apiController = {
-    home(req, res) {
-        return res.json({
-            message: 'Welcome to the API!',
-        });
-    },
+   home(req, res) {
+      return res.json({
+         message: 'Welcome to the API!',
+      });
+   },
 };
 
 coachesControllers.createCoach = [validateBody(coachSchema), coachesControllers.createCoach];
@@ -24,14 +24,14 @@ joueursControllers.postJoueur = [validateBody(playerSchema), joueursControllers.
 // suites des validations
 
 module.exports = {
-    apiController,
-    coachesControllers,
-    logoutControllers,
-    joueursControllers,
-    equipeController,
-    seancesController,
-    presenceController,
-    categoriesController,
-    qrcodeController,
-    loginControllers,
+   apiController,
+   coachesControllers,
+   logoutControllers,
+   joueursControllers,
+   equipeController,
+   seancesController,
+   presenceController,
+   categoriesController,
+   qrcodeController,
+   loginControllers,
 };
