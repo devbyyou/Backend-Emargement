@@ -39,7 +39,10 @@ Joueur.belongsToMany(Seances, { through: 'presences', foreignKey: 'joueur_id' })
 
 // Modèle Equipes
 Equipes.hasMany(Joueur, { as: 'joueurs', foreignKey: 'equipe_id' });
-Equipes.hasMany(Seances, { foreignKey: 'equipe_id' });
+Equipes.hasMany(Seances, {
+   as: 'seances',
+   foreignKey: 'equipe_id',
+});
 
 // Modèle Seances
 Seances.belongsTo(Equipes, { foreignKey: 'equipe_id' });

@@ -1,5 +1,8 @@
 /* eslint-disable camelcase */
 const { format } = require('date-fns');
+const QRCode = require('qrcode');
+// const fs = require('fs');
+// const path = require('path');
 const { Seances } = require('../../models');
 
 const seancesController = {
@@ -14,6 +17,7 @@ const seancesController = {
 
    getOne: async (req, res) => {
       const { id, seanceId } = req.params;
+
       try {
          const seance = await Seances.findOne({ where: { id: seanceId, equipeId: id } });
          if (!seance) {
@@ -38,16 +42,45 @@ const seancesController = {
             equipe_id,
             categorie_id,
             statut: statut || 'planifiee',
-            lieu: `${adresse} ${ville}`,
+            lieu: `${adresse}, ${ville}`,
             date: formattedDate,
             heure: formattedHeure,
          }, {
-            fields: ['equipe_id', 'categorie_id', 'statut', 'lieu', 'date', 'heure'],
+            fields: ['equipe_id', 'categorie_id', 'statut', 'lieu', 'date', 'heure', 'id'],
          });
+         // Générer le contenu du QR code avec les informations de la séance
+         const qrCodeContent = JSON.stringify({
+            seanceId: newSeance.id,
+            equipe_id: newSeance.equipe_id,
+            categorie_id: newSeance.categorie_id,
+            statut: newSeance.statut,
+            lieu: newSeance.lieu,
+            date: newSeance.date,
+            heure: newSeance.heure,
+         });
+         // Générer le QR code et obtenir l'URL de l'image générée
+         const qrCodeImageUrl = await QRCode.toDataURL(qrCodeContent);
 
-         res.status(201).json(newSeance);
+         // Ajouter l'URL du QR code à la réponse
+         newSeance.qrCodeImageUrl = qrCodeImageUrl;
+
+         // Convertir l'image en base64
+         const base64Image = qrCodeImageUrl.split(';base64,').pop();
+         res.status(201).json({ seance: newSeance, qrCodeImage: base64Image });
       } catch (error) {
          res.status(400).json({ error: error.message });
+         console.error('Erreur lors de la création de la séance :', error);
+         // Gérer les erreurs spécifiques
+         if (error.name === 'SequelizeValidationError') {
+            // Les données de la séance ne sont pas valides
+            res.status(400).json({ error: 'Données de séance non valides.' });
+         } else if (error.name === 'SequelizeUniqueConstraintError') {
+            // Une contrainte d'unicité a été violée
+            res.status(400).json({ error: 'La séance existe déjà.' });
+         } else {
+            // Autres erreurs non prévues
+            res.status(500).json({ error: 'Une erreur inattendue est survenue.' });
+         }
       }
    },
 

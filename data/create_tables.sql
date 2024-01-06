@@ -154,4 +154,3 @@ ADD CONSTRAINT fk_coaches_seances
 FOREIGN KEY ("session_id") REFERENCES seances("id");
 
 COMMIT;
-
