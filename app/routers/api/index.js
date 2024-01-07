@@ -28,9 +28,9 @@ router.use('/joueurs', authenticateToken, joueursRouter);
 router.use('/player', authenticateToken, joueursRouter);
 router.use('/equipes', authenticateToken, equipesRouter);
 router.use('/seances', authenticateToken, seancesRouter);
-router.use('/presences', presenceRouter);
 router.use('/categories', categoriesRouter);
-router.use('/qrcode', qrcodeRouter);
+router.use('/update-last-activity', authenticateToken, qrcodeRouter);
+router.use('/presences', authenticateToken, presenceRouter);
 
 router.use((req, res) => {
    res.status(404).send('Service does not exists\nSee : https://doc.localhost.api');

@@ -1,6 +1,9 @@
+/* eslint-disable camelcase */
 // controllers/api/presenceController.js
 
-const { Presence, Absence, Retard } = require('../../models');
+const {
+   Presence, Absence, Retard, Joueur,
+} = require('../../models');
 const HistoriquePresence = require('../../models/historiquePresenceModel');
 const { notificationService } = require('../../services/notificationService');
 
@@ -18,13 +21,29 @@ const presenceController = {
 
    // Enregistre la présence d'un joueur à une séance
    recordPresence: async (req, res) => {
+      // const { joueurId, seanceId } = req.params;
+      const {
+         joueurId, seanceId, statut, absence, retard,
+      } = req.body;
+
+      console.log('lelog ------------------>', joueurId, seanceId, statut, absence, retard);
       try {
-         const { id: equipeId, seanceId } = req.params;
-         const { joueurId } = req.body;
-         const newPresence = await Presence.create({ equipeId, seanceId, joueurId });
-         res.status(201).json(newPresence);
+         // Mettre à jour la colonne derniere_activite du joueur
+         await Joueur.update(
+            { derniere_activite: new Date() },
+            { where: { id: joueurId } },
+         );
+
+         const presence = await Presence.create({
+            joueur_id: joueurId,
+            seance_id: seanceId,
+            statut,
+            absence,
+            retard,
+         });
+         res.status(200).json({ success: true, presence });
       } catch (error) {
-         res.status(400).json({ error: error.message });
+         res.status(500).json({ success: false, error: error.message });
       }
    },
 
