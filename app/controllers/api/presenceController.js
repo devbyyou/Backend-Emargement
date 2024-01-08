@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 // controllers/api/presenceController.js
-
 const {
    Presence, Absence, Retard, Joueur,
 } = require('../../models');
@@ -18,22 +17,19 @@ const presenceController = {
          res.status(500).json({ error: error.message });
       }
    },
-
    // Enregistre la présence d'un joueur à une séance
    recordPresence: async (req, res) => {
       // const { joueurId, seanceId } = req.params;
       const {
          joueurId, seanceId, statut, absence, retard,
       } = req.body;
-
-      console.log('lelog ------------------>', joueurId, seanceId, statut, absence, retard);
+      // console.log('lelog ------------------>', joueurId, seanceId, statut, absence, retard);
       try {
          // Mettre à jour la colonne derniere_activite du joueur
          await Joueur.update(
             { derniere_activite: new Date() },
             { where: { id: joueurId } },
          );
-
          const presence = await Presence.create({
             joueur_id: joueurId,
             seance_id: seanceId,
@@ -46,7 +42,6 @@ const presenceController = {
          res.status(500).json({ success: false, error: error.message });
       }
    },
-
    // Marque un joueur comme absent à une séance
    markAbsent: async (req, res) => {
       try {

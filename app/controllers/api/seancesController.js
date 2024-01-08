@@ -36,7 +36,9 @@ const seancesController = {
 
       const formattedDate = format(recurringDates[0], 'yyyy-MM-dd');
       const formattedHeure = format(recurringDates[0], 'HH:mm:ss');
-
+      // console.log(recurringDates[0]);
+      const creneau = recurringDates[0];
+      // console.log(creneau);
       try {
          const newSeance = await Seances.create({
             equipe_id,
@@ -45,8 +47,7 @@ const seancesController = {
             lieu: `${adresse}, ${ville}`,
             date: formattedDate,
             heure: formattedHeure,
-         }, {
-            fields: ['equipe_id', 'categorie_id', 'statut', 'lieu', 'date', 'heure', 'id'],
+            horaire: creneau,
          });
          // Générer le contenu du QR code avec les informations de la séance
          const qrCodeContent = JSON.stringify({
@@ -57,13 +58,13 @@ const seancesController = {
             lieu: newSeance.lieu,
             date: newSeance.date,
             heure: newSeance.heure,
+            horaire: newSeance.horaire,
+
          });
          // Générer le QR code et obtenir l'URL de l'image générée
          const qrCodeImageUrl = await QRCode.toDataURL(qrCodeContent);
-
          // Ajouter l'URL du QR code à la réponse
          newSeance.qrCodeImageUrl = qrCodeImageUrl;
-
          // Convertir l'image en base64
          const base64Image = qrCodeImageUrl.split(';base64,').pop();
          res.status(201).json({ seance: newSeance, qrCodeImage: base64Image });

@@ -21,6 +21,10 @@ Seances.init(
          type: DataTypes.ENUM('planifiee', 'terminee'),
          defaultValue: 'planifiee',
       },
+      horaire: {
+         type: DataTypes.DATE,
+         allowNull: false,
+      },
       equipe_id: {
          type: DataTypes.INTEGER,
          allowNull: false,
