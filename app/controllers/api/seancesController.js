@@ -38,7 +38,7 @@ const seancesController = {
       const formattedHeure = format(recurringDates[0], 'HH:mm:ss');
       // console.log(recurringDates[0]);
       const creneau = recurringDates[0];
-      // console.log(creneau);
+      // console.log('leLog format(creneau) ', format(creneau));
       try {
          const newSeance = await Seances.create({
             equipe_id,
