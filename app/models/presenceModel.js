@@ -55,14 +55,11 @@ Presence.init(
    {
       sequelize,
       modelName: 'Presence',
+      tableName: 'presences',
       timestamps: true,
       updatedAt: 'updated_at',
       createdAt: 'created_at',
    },
 );
-
-// Ajoutez les relations avec les autres modèles
-Presence.belongsTo(Joueur, { foreignKey: 'joueur_id' });
-Presence.belongsTo(Seance, { foreignKey: 'seance_id' });
 
 module.exports = Presence;

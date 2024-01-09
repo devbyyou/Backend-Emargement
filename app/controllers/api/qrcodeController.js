@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const { generateQRCode } = require('../../qrcode');
+// const { generateQRCode } = require('../../qrcode');
 const { Seance, Joueur } = require('../../models');
 
 const qrcodeController = {

@@ -34,20 +34,26 @@ Categories.hasMany(Equipes, {
    foreignKey: 'categorie_id',
 });
 
-// Modèle Joueur
-Joueur.belongsToMany(Seances, { through: 'presences', foreignKey: 'joueur_id' });
-
 // Modèle Equipes
 Equipes.hasMany(Joueur, { as: 'joueurs', foreignKey: 'equipe_id' });
 Equipes.hasMany(Seances, {
    as: 'seances',
    foreignKey: 'equipe_id',
 });
+// --
 
+// Modèle Joueur
+Joueur.belongsToMany(Seances, { through: 'presences', foreignKey: 'joueur_id' });
 // Modèle Seances
-Seances.belongsTo(Equipes, { foreignKey: 'equipe_id' });
 Seances.belongsToMany(Joueur, { through: 'presences', foreignKey: 'seance_id' });
 
+Seances.belongsTo(Equipes, { foreignKey: 'equipe_id' });
+Seances.hasMany(Presence, { as: 'presences', foreignKey: 'seance_id' });
+
+Presence.belongsTo(Seances, { foreignKey: 'seance_id' });
+Presence.belongsTo(Joueur, { foreignKey: 'joueur_id' });
+
+// --
 Joueur.hasMany(Absence);
 Absence.belongsTo(Joueur);
 

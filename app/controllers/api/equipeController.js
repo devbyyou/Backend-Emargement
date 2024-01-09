@@ -3,7 +3,7 @@
 // const { authService } = require('../../services/authService');
 
 const {
-   Equipes, Coaches, Joueur, Categories, CoachesEquipes, Seances,
+   Equipes, Coaches, Joueur, Categories, CoachesEquipes, Seances, Presence,
 } = require('../../models');
 
 const equipeController = {
@@ -39,6 +39,14 @@ const equipeController = {
                      model: Seances,
                      as: 'seances',
                      attributes: ['date', 'heure', 'lieu', 'equipe_id', 'categorie_id', 'id'],
+                     include: [
+                        {
+                           model: Presence,
+                           as: 'presences',
+                           // attributes: ['', '', '', '', ''],
+
+                        },
+                     ],
                   },
                   {
                      model: Categories,
