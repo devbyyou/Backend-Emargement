@@ -34,7 +34,7 @@ const seancesController = {
          equipe_id, categorie_id, statut, adresse, ville, recurringDates,
       } = req.body;
       const formattedDate = format(recurringDates[0], 'yyyy-MM-dd');
-      const formattedHeure = format(recurringDates[0], 'HH:mm:ss');
+      const formattedHeure = format(recurringDates[0], 'HH:mm');
       const creneau = recurringDates[0];
       try {
          const newSeance = await Seances.create({

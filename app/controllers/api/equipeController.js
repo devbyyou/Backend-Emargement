@@ -38,7 +38,7 @@ const equipeController = {
                   {
                      model: Seances,
                      as: 'seances',
-                     attributes: ['date', 'heure', 'lieu', 'equipe_id', 'categorie_id', 'id'],
+                     // attributes: ['date', 'heure', 'lieu', 'equipe_id', 'categorie_id', 'id'],
                      include: [
                         {
                            model: Presence,
