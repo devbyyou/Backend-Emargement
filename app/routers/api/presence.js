@@ -7,7 +7,9 @@ const { presenceController } = require('../../controllers/api');
 // const { validateQRMiddleware } = require('../../middlewares/validateQRMiddleware');
 
 const router = express.Router();
-
+router
+   .route('/:seance_id')
+   .get(presenceController.getPresences);
 router
    .route('/:joueur_id/:equipe_id')
    // .get(authenticateToken, presenceController.getPresences)

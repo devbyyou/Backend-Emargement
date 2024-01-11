@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 // controllers/api/presenceController.js
 const {
@@ -9,9 +10,13 @@ const { notificationService } = require('../../services/notificationService');
 const presenceController = {
    // Obtient la liste des joueurs présents à une séance
    getPresences: async (req, res) => {
+      // console.log('req is -------->', req);
       try {
-         const { id: equipeId, seanceId } = req.params;
-         const presences = await Presence.findAll({ where: { equipeId, seanceId } });
+         const { seance_id } = req.params;
+         // console.log('equipeId seanceId is -------->', seance_id);
+
+         const presences = await Presence.findAll({ where: { seance_id } });
+         console.log('presences is -------->', presences);
          res.json(presences);
       } catch (error) {
          res.status(500).json({ error: error.message });
