@@ -7,6 +7,6 @@ const generateSecretKey = () => crypto.randomBytes(32).toString('hex');
 const secretKey = process.env.SECRET_KEY || generateSecretKey();
 
 module.exports = {
-    generateSecretKey,
-    secretKey,
+   generateSecretKey,
+   secretKey,
 };

@@ -16,7 +16,7 @@ const presenceController = {
          // console.log('equipeId seanceId is -------->', seance_id);
 
          const presences = await Presence.findAll({ where: { seance_id } });
-         console.log('presences is -------->', presences);
+         // console.log('presences is -------->', presences);
          res.json(presences);
       } catch (error) {
          res.status(500).json({ error: error.message });

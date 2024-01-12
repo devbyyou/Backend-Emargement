@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 // const roles = require('../../roles');
 // const { authService } = require('../../services/authService');
+const cloudinary = require('../../config/cloudinaryConfig');
 
 const {
    Equipes, Coaches, Joueur, Categories, CoachesEquipes, Seances, Presence,
@@ -16,6 +17,7 @@ const equipeController = {
       }
    },
    getAllEquipesByUser: async (req, res) => {
+      // console.log('le req est ----------->', req.user);
       const { userId } = req.user;
       if (!userId) {
          return res.status(400).json({ error: 'Le paramètre userID est manquant.' });
@@ -84,10 +86,20 @@ const equipeController = {
 
    createEquipe: async (req, res) => {
       const {
-         nom, logo, categorie_id, statut,
+         nom, categorie_id, statut, logo,
       } = req.body;
       const coachId = req.user.userId;
+      // console.log('le req.file est ----------->', req.file);
+
       try {
+         // cloudinary.uploader.upload(req.file.path, async (err, result) => {
+         // if (err) {
+         //    console.log(err);
+         //    return res.status(500).json({
+         //       success: false,
+         //       message: 'Error',
+         //    });
+         // }
          const newEquipe = await Equipes.create({
             nom,
             logo,
@@ -95,13 +107,26 @@ const equipeController = {
             statut,
             coachId,
          });
-            // Ajouter l'équipe à l'ensemble des équipes associées à l'entraîneur
+         // console.log('la newEquipe est ----------->', newEquipe);
          const coach = await Coaches.findByPk(coachId);
          if (coach) {
             await coach.addEquipes(newEquipe);
+            // res.status(201).json(newEquipe);
          }
-         res.status(201).json(newEquipe);
+         // console.log('Super!');
+         // return res.status(200).json({
+
+         //    success: true,
+         //    message: 'Uploaded',
+         //    data: {
+         //       equipe: newEquipe,
+         //       cloudinaryData: result,
+         //    },
+         // });
+         return res.status(200).json(newEquipe);
+         // });
       } catch (error) {
+         console.error(error);
          res.status(400).json({ error: error.message });
       }
    },

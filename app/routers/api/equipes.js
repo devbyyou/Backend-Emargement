@@ -6,6 +6,7 @@ const { equipeController: controller } = require('../../controllers/api');
 // const authorize = require('../../middlewares/authorize');
 // const roles = require('../../roles');
 // const authenticateToken = require('../../middlewares/authenticateToken');
+const upload = require('../../middlewares/multerLocal');
 
 const router = express.Router();
 
@@ -17,6 +18,7 @@ router.route('/')
    .post(
       // authorize(roles.ENTRAINEUR.toLowerCase()),
       // validateController.validateTeam,
+      upload.single('logo'),
       controller.createEquipe,
    );
 
