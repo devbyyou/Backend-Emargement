@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const config = require('../config');
@@ -73,23 +74,24 @@ const authenticateUser = async (email, password) => {
          where: {
             email,
          },
-         include: {
-            model: Equipes,
-            as: 'equipes',
-            attributes: ['id', 'nom', 'logo', 'statut', 'categorie_id'],
-            include: [
-               {
-                  model: Joueur,
-                  as: 'joueurs',
-                  attributes: ['id', 'nom', 'prenom', 'email', 'derniere_activite'],
-               },
-               {
-                  model: Categories,
-                  as: 'categories',
-                  attributes: ['id', 'nom', 'tranche_age', 'nombre_total'],
-               },
-            ],
-         },
+         // attributes: ['id', 'nom', 'banniere', 'equipe_id', 'statut', 'logo', 'role', 'prenom','e'],
+         // include: {
+         //    model: Equipes,
+         //    as: 'equipes',
+         //    attributes: ['id', 'nom', 'logo', 'statut', 'categorie_id'],
+         //    include: [
+         //       {
+         //          model: Joueur,
+         //          as: 'joueurs',
+         //          attributes: ['id', 'nom', 'prenom', 'email', 'derniere_activite'],
+         //       },
+         //       {
+         //          model: Categories,
+         //          as: 'categories',
+         //          attributes: ['id', 'nom', 'tranche_age', 'nombre_total'],
+         //       },
+         //    ],
+         // },
       },
    );
    const joueur = await Joueur.findOne({
