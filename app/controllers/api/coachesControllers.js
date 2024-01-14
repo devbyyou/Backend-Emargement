@@ -12,7 +12,6 @@ const coachesController = {
          res.status(500).json({ error: 'Internal Server Error' });
       }
    },
-
    getById: async (req, res) => {
       const { id } = req.params;
       try {
@@ -26,14 +25,10 @@ const coachesController = {
          res.status(500).json({ error: 'Internal Server Error' });
       }
    },
-
    createCoach: async (req, res) => {
       try {
-         // Assurez-vous que le middleware authorize a
-         // ajouté les informations utilisateur à req.user
          const { user } = req;
 
-         // Vérifiez si l'utilisateur a le rôle requis
          if (user.role !== roles.ENTRAINEUR) {
             return res.status(403).json({ message: 'Accès interdit. Rôle utilisateur incorrect.' });
          }
@@ -48,8 +43,8 @@ const coachesController = {
    updateCoach: async (req, res) => {
       const {
          nom, prenom, email,
-         logo, tel, age,
-         banniere, password, role,
+         tel, age,
+         password, role,
       } = req.body;
       const { id } = req.params;
       try {
@@ -61,13 +56,49 @@ const coachesController = {
                nom,
                prenom,
                email,
-               logo,
                tel,
                age,
-               banniere,
                password,
                role,
                id,
+            });
+            res.status(201).json(coach);
+         }
+      } catch (error) {
+         res.status(400).json({ error: error.message });
+      }
+   },
+   updateCoachBanniere: async (req, res) => {
+      const {
+         labanniere,
+      } = req.body;
+      const { userId } = req.user;
+      try {
+         const coach = await Coaches.findByPk(userId);
+         if (!coach) {
+            res.status(404).json({ message: 'coach non trouvée.' });
+         } else {
+            await coach.update({
+               banniere: labanniere,
+            });
+            res.status(201).json(coach);
+         }
+      } catch (error) {
+         res.status(400).json({ error: error.message });
+      }
+   },
+   updateCoachLogo: async (req, res) => {
+      const {
+         lelogo,
+      } = req.body;
+      const { userId } = req.user;
+      try {
+         const coach = await Coaches.findByPk(userId);
+         if (!coach) {
+            res.status(404).json({ message: 'coach non trouvée.' });
+         } else {
+            await coach.update({
+               logo: lelogo,
             });
             res.status(201).json(coach);
          }
@@ -82,8 +113,6 @@ const coachesController = {
          if (!coach) {
             return res.status(404).json({ message: 'Coach not found' });
          }
-
-         // Supprimez le coach de la base de données
          await coach.destroy();
 
          res.json({ message: 'Coach deleted successfully' });

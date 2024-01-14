@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 // const roles = require('../../roles');
 // const { authService } = require('../../services/authService');
-const cloudinary = require('../../config/cloudinaryConfig');
+// const cloudinary = require('../../config/cloudinaryConfig');
 
 const {
    Equipes, Coaches, Joueur, Categories, CoachesEquipes, Seances, Presence,
