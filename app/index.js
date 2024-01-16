@@ -14,10 +14,13 @@ const errorHandler = require('./errors');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-
 app.use(express.json());
-
 app.use(express.urlencoded({ extended: true }));
+
+app.use(router);
+
+app.use(authenticateToken);
+
 const corsOptions = {
    origin: process.env.CORS_DOMAINS ? process.env.CORS_DOMAINS.split(',') : '*',
    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
@@ -26,10 +29,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
-app.use(router);
-
-app.use(authenticateToken);
 
 app.use(errorHandler);
 module.exports = app;
