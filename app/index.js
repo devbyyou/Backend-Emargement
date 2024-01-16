@@ -24,22 +24,7 @@ app.use(cors(process.env.CORS_DOMAINS ?? '*'));
 app.use(router);
 
 app.use(authenticateToken);
-console.log(
-   '27 env ______>',
-   process.env.CORS_DOMAINS,
-   process.env.PORT,
-   process.env.PGUSER,
-   process.env.PGHOST,
-   process.env.PGPASSWORD,
-   process.env.PGDATABASE,
-   process.env.PGPORT,
-   process.env.CORS_DOMAINS,
-   process.env.API_DOCUMENTATION_ROUTE,
-   process.env.SECRET_KEY,
-   process.env.CLOUDINARY_CLOUD_NAME,
-   process.env.CLOUDINARY_API_KEY,
-   process.env.CLOUDINARY_SECRET_KEY,
-);
+
 
 app.use(errorHandler);
 module.exports = app;
