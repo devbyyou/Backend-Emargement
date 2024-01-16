@@ -5,6 +5,8 @@ const cors = require('cors');
 const router = require('./routers');
 
 const app = express();
+console.log('app ->', process.env.PORT);
+
 const authenticateToken = require('./middlewares/authenticateToken');
 // const config = require('./config');
 const errorHandler = require('./errors');
