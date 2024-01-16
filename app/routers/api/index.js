@@ -16,7 +16,7 @@ const coachBanniereRouter = require('./coachBanniereRouter');
 
 const router = express.Router();
 
-router.all('/', authenticateToken, apiController.home);
+router.all('/', apiController.home);
 
 router.use('/logout', authenticateToken, logoutRouter);
 router.use('/login', loginRouter);

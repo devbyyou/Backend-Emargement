@@ -18,13 +18,18 @@ app.set('view engine', 'pug');
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
+const corsOptions = {
+   origin: process.env.CORS_DOMAINS ? process.env.CORS_DOMAINS.split(',') : '*',
+   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+   credentials: true,
+   optionsSuccessStatus: 204,
+};
 
-app.use(cors(process.env.CORS_DOMAINS ?? '*'));
+app.use(cors(corsOptions));
 
 app.use(router);
 
 app.use(authenticateToken);
-
 
 app.use(errorHandler);
 module.exports = app;
