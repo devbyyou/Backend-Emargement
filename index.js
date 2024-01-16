@@ -4,9 +4,7 @@ const debug = require('debug')('app:server');
 const app = require('./app');
 
 const port = process.env.PORT ?? 3001;
-console.log(process.env.PORT);
 const server = http.createServer(app);
-console.log('server -->');
 
 server.listen(port, () => {
    debug(`Listening on ${port}`);

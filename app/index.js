@@ -5,7 +5,6 @@ const cors = require('cors');
 const router = require('./routers');
 
 const app = express();
-console.log('app ->', process.env.PORT);
 
 const authenticateToken = require('./middlewares/authenticateToken');
 // const config = require('./config');
@@ -18,17 +17,29 @@ app.set('view engine', 'pug');
 
 app.use(express.json());
 
-console.log('21 extended: true');
 app.use(express.urlencoded({ extended: true }));
-console.log('23 extended: true');
 
 app.use(cors(process.env.CORS_DOMAINS ?? '*'));
-console.log('26 CORS ______>', process.env.CORS_DOMAINS);
 
 app.use(router);
-console.log('29 router');
 
 app.use(authenticateToken);
+console.log(
+   '27 env ______>',
+   process.env.CORS_DOMAINS,
+   process.env.PORT,
+   process.env.PGUSER,
+   process.env.PGHOST,
+   process.env.PGPASSWORD,
+   process.env.PGDATABASE,
+   process.env.PGPORT,
+   process.env.CORS_DOMAINS,
+   process.env.API_DOCUMENTATION_ROUTE,
+   process.env.SECRET_KEY,
+   process.env.CLOUDINARY_CLOUD_NAME,
+   process.env.CLOUDINARY_API_KEY,
+   process.env.CLOUDINARY_SECRET_KEY,
+);
 
 app.use(errorHandler);
 module.exports = app;
