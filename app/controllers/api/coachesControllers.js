@@ -52,16 +52,16 @@ const coachesController = {
          if (!coach) {
             res.status(404).json({ message: 'coach non trouvée.' });
          } else {
-            await coach.update({
-               nom,
-               prenom,
-               email,
-               tel,
-               age,
-               password,
-               role,
-               id,
-            });
+            const updatedFields = {};
+            if (nom) updatedFields.nom = nom;
+            if (prenom) updatedFields.prenom = prenom;
+            if (email) updatedFields.email = email;
+            if (tel) updatedFields.tel = tel;
+            if (age) updatedFields.age = age;
+            if (password) updatedFields.password = password;
+            if (role) updatedFields.role = role;
+
+            await coach.update(updatedFields);
             res.status(201).json(coach);
          }
       } catch (error) {

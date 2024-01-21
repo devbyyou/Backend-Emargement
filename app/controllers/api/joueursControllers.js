@@ -118,18 +118,17 @@ const JoueuresController = {
          if (!joueur) {
             res.status(404).json({ message: 'Joueur non trouvée.' });
          } else {
-            await joueur.update({
-               nom,
-               prenom,
-               email,
-               logo,
-               categorie_id,
-               statut,
-               tel,
-               age,
-               equipe_id,
-               id,
-            });
+            const updatedFields = {};
+            if (nom) updatedFields.nom = nom;
+            if (prenom) updatedFields.prenom = prenom;
+            if (email) updatedFields.email = email;
+            if (tel) updatedFields.tel = tel;
+            if (age) updatedFields.age = age;
+            if (equipe_id) updatedFields.equipe_id = equipe_id;
+            if (statut) updatedFields.statut = statut;
+            if (logo) updatedFields.logo = logo;
+            if (categorie_id) updatedFields.categorie_id = categorie_id;
+            await joueur.update(updatedFields);
             res.status(201).json(joueur);
          }
       } catch (error) {
@@ -148,17 +147,17 @@ const JoueuresController = {
          if (!joueur) {
             res.status(404).json({ message: 'Joueur non trouvée.' });
          } else {
-            await joueur.update({
-               nom,
-               prenom,
-               email,
-               logo,
-               tel,
-               age,
-               banniere,
-               password,
-               role,
-            });
+            const updatedFields = {};
+            if (nom) updatedFields.nom = nom;
+            if (prenom) updatedFields.prenom = prenom;
+            if (email) updatedFields.email = email;
+            if (tel) updatedFields.tel = tel;
+            if (age) updatedFields.age = age;
+            if (banniere) updatedFields.banniere = banniere;
+            if (password) updatedFields.password = password;
+            if (logo) updatedFields.logo = logo;
+            if (role) updatedFields.role = role;
+            await joueur.update(updatedFields);
             res.status(201).json(joueur);
          }
       } catch (error) {
